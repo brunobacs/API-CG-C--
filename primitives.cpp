@@ -3,6 +3,14 @@
 
 using namespace std;
 
+
+int sign (int numero){
+    if (numero > 0){
+        return numero;
+    }
+    return -1*numero;
+}
+
 // Function to set a pixel at (x, y) with the given intensity
 void set_pixel(SDL_Surface* surface, int x, int y, Uint8 intensity) {
 
@@ -17,43 +25,53 @@ void set_pixel(SDL_Surface* surface, int x, int y, Uint8 intensity) {
 
 
 void desenha(SDL_Surface* surface){
-// desenha está dando erro de ponto flutuante, deve ser por conta do calculo do y com muita divisao
-    int xant = 0;
-    int yant = 0;
+  
+    int xant = 320;
+    int yant = 240;
 
+    float wave_factor = 16;
     for (int x = 0; x<surface->w; x++){
-
-        int y = (int) 100*sin(x/16) + (int) surface->h/2;
-        dda(surface, xant, yant, floor(x), floor(y), 255);
+        float y = 100 * sin(x/wave_factor) + surface->h / 2;
+        dda_aa(surface, xant, yant, floor(x), floor(y), 255);
         xant = x;
         yant = y;
     }
 
 }
 
-void dda (SDL_Surface* surface, int xi, int yi, int xf, int yf, int intensidade){
+void dda_aa (SDL_Surface* surface, int xi, int yi, int xf, int yf, int intensidade){
     int dx = xf - xi;
     int dy = yf - yi;
+    int passos = 1;
 
     if (abs(dx) > abs(dy)){
-        int passos = abs(dx);
+        passos = abs(dx);
+    }else {
+        passos = abs(dy);
     }
     
-    int passos = abs(dy);
-    
-
-    int passo_x = dx/passos;
-    int passo_y = dy/passos;
+    int passo_x= floor(dx/passos);
+    int passo_y = floor(dy/passos);
 
     int  x = xi;
     int  y = yi;
 
     set_pixel(surface, round(x), round(y), intensidade);
 
-    for (int p = 0; p < passos; p++){
+    for (int p = 0; p < passos+1; p++){
         x = x + passo_x;
         y = y + passo_y;
 
+        if (passo_x == 1){
+            int prop = abs(y - floor(y));
+            set_pixel(surface, floor(x), floor(y), round((1-prop)*intensidade));
+            set_pixel(surface, floor(x), floor(y + sign(passo_y)), round((prop)*intensidade));
+        }else {
+            int prop = abs(x - floor(x));
+
+            set_pixel(surface, floor(x), floor(y), round((1-prop)*intensidade));
+            set_pixel(surface, floor(x + sign(passo_x)), floor(y), round((prop)*intensidade));
+        }
         set_pixel(surface, round(x), round(y), intensidade);
     }
 

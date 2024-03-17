@@ -44,12 +44,12 @@ int main(){
 
 // aqui a gente desenha com as primitivas
 
-    //desenha(surface); // ta dando erro no ponto flutuante, nao vi como ajeitar ainda
-    dda (surface, 100, 50, 500, 300, 255);
-    dda (surface, 300, 100, 10, 10, 255);
-    dda (surface, 150, 200, 630, 10, 255);
+    // desenha(surface); // ta dando erro no ponto flutuante, nao vi como ajeitar ainda
+    // dda_aa (surface, 0, 0, 100, 300, 255);
+    // dda_aa (surface, 300, 100, 10, 10, 255);
+    // dda_aa (surface, 150, 200, 630, 10, 255);
 
-    // set_pixel(surface, 100, 100, 255);
+    // set_pixel(surface, 610, 460, 255);
     // set_pixel(surface, 161, 101, 255);
     // set_pixel(surface, 162, 102, 255);
     // set_pixel(surface, 163, 103, 255);
