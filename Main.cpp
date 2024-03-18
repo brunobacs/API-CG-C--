@@ -44,10 +44,34 @@ int main(){
 
 // aqui a gente desenha com as primitivas
 
-    // desenha(surface); // ta dando erro no ponto flutuante, nao vi como ajeitar ainda
-    // dda_aa (surface, 0, 0, 100, 300, 255);
-    // dda_aa (surface, 300, 100, 10, 10, 255);
-    // dda_aa (surface, 150, 200, 630, 10, 255);
+    // desenha(surface); 
+    //teste 1
+    dda_aa (surface, 20, 20, 50, 50, 255); //45 graus
+    dda_aa (surface, 80, 80, 30, 30, 255); // 45 graus ao contrario
+
+    dda_aa (surface, 40, 40, 150, 390, 255);
+    dda_aa (surface, 20, 400, 120, 10, 255);
+
+    dda_aa (surface, 30, 30, 450, 30, 255); // reta no y 30
+    dda_aa (surface, 450, 450, 40, 450, 255); // reta voltando no 450
+
+    dda_aa (surface, 160, 40, 160, 400, 255); // reta vertical x= 160
+    dda_aa (surface, 20, 20, 50, 50, 255);
+
+    dda_aa (surface, 590, 400, 590, 50, 255); // reta vertical voltando x = 590
+
+    dda_aa (surface, 500, 40, 200, 310, 255);
+    dda_aa (surface, 450, 450, 200, 200, 255);
+
+// teste 2
+    dda_aa (surface, 100, 100, 280, 140, 255); // maior que 45 graus = erro
+    dda_aa (surface, 100, 100, 280, 280, 255); // 45 graus
+    dda_aa (surface, 100, 100, 200, 380, 255); // menor q 45 == erro
+    dda_aa (surface, 110, 380, 580, 200, 255);
+    dda_aa (surface, 580, 200, 210, 10, 255);
+    dda_aa (surface, 580, 40, 480, 400, 255);
+    dda_aa (surface, 210, 380, 500, 40, 255);
+    dda_aa (surface, 40, 20, 210, 410, 255);
 
     // set_pixel(surface, 610, 460, 255);
     // set_pixel(surface, 161, 101, 255);

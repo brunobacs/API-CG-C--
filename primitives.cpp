@@ -6,16 +6,19 @@ using namespace std;
 
 int sign (int numero){
     if (numero > 0){
-        return numero;
+        return 1;
+    }else if (numero == 0){
+        return 0;
+    }else {
+        return -1;
     }
-    return -1*numero;
 }
 
 // Function to set a pixel at (x, y) with the given intensity
 void set_pixel(SDL_Surface* surface, int x, int y, Uint8 intensity) {
 
     if (x < 0 || x >= surface->w || y < 0 || y >= surface->h) {
-        return;  // Ignore pixels outside the screen
+        return;  
     }
 
     Uint32 color = SDL_MapRGB(surface->format, intensity, intensity, intensity);
@@ -27,12 +30,12 @@ void set_pixel(SDL_Surface* surface, int x, int y, Uint8 intensity) {
 void desenha(SDL_Surface* surface){
   
     int xant = 320;
-    int yant = 240;
+    double yant = 240;
 
-    float wave_factor = 16;
-    for (int x = 0; x<surface->w; x++){
-        float y = 100 * sin(x/wave_factor) + surface->h / 2;
-        dda_aa(surface, xant, yant, floor(x), floor(y), 255);
+    double wave_factor = 16;
+    for (int x = 0; x<(surface->w-1); x++){
+        double y = 100 * sin(x/wave_factor) + surface->h / 2;
+        dda_aa(surface, xant, yant, x, floor(y), 255);
         xant = x;
         yant = y;
     }
@@ -40,39 +43,33 @@ void desenha(SDL_Surface* surface){
 }
 
 void dda_aa (SDL_Surface* surface, int xi, int yi, int xf, int yf, int intensidade){
-    int dx = xf - xi;
-    int dy = yf - yi;
-    int passos = 1;
-
-    if (abs(dx) > abs(dy)){
-        passos = abs(dx);
-    }else {
-        passos = abs(dy);
-    }
+    double dx = xf - xi;
+    double dy = yf - yi;
+    double passos = max(abs(dx), abs(dy));
     
-    int passo_x= floor(dx/passos);
-    int passo_y = floor(dy/passos);
+    double passo_x = dx/passos;
+    double passo_y = dy/passos; 
 
-    int  x = xi;
-    int  y = yi;
+    double  x = xi;
+    double  y = yi;
 
-    set_pixel(surface, round(x), round(y), intensidade);
+    set_pixel(surface, floor(x), floor(y), intensidade);
 
-    for (int p = 0; p < passos+1; p++){
+    for (int p = 0; p < passos; p++){
         x = x + passo_x;
         y = y + passo_y;
 
         if (passo_x == 1){
-            int prop = abs(y - floor(y));
+            double prop = abs(y - floor(y));
             set_pixel(surface, floor(x), floor(y), round((1-prop)*intensidade));
             set_pixel(surface, floor(x), floor(y + sign(passo_y)), round((prop)*intensidade));
-        }else {
-            int prop = abs(x - floor(x));
-
+        }else{
+            double prop = abs(x - floor(x));
             set_pixel(surface, floor(x), floor(y), round((1-prop)*intensidade));
             set_pixel(surface, floor(x + sign(passo_x)), floor(y), round((prop)*intensidade));
         }
-        set_pixel(surface, round(x), round(y), intensidade);
+        
+        set_pixel(surface, floor(x), floor(y), intensidade);
     }
 
 }
