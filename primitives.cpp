@@ -1,5 +1,7 @@
 #include <SDL2/SDL.h>
 #include "primitives.h"
+#include <vector>
+#include <utility> // for std::pair
 
 using namespace std;
 
@@ -123,6 +125,27 @@ void bresenham (SDL_Surface* pixels, int xi, int yi, int xf, int yf, int intensi
         }
 
     }
-    
 
+}
+
+// vector<pair<int, int>> createPoligon(size_t size) {
+//     vector<pair<int, int>> poligon(size);
+//     return poligon;
+// }
+
+void insertPoint(vector<pair<int, int>>& pol, int x, int y) {
+    pol.push_back(make_pair(x, y));
+}
+
+void poligono(SDL_Surface* surface, vector<pair<int, int>>& pol, int intensidade) {
+    if (pol.size() < 2) {
+        return;
+    }
+    
+    for (size_t i = 0; i < pol.size() - 1; ++i) {
+        bresenham(surface, pol[i].first, pol[i].second, pol[i + 1].first, pol[i + 1].second, intensidade);
+    }
+
+    // Draw the last line to close the polygon
+    bresenham(surface, pol.back().first, pol.back().second, pol.front().first, pol.front().second, intensidade);
 }

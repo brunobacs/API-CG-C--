@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "primitives.h"
+#include <vector>
+#include <utility>
 
 using namespace std;
 
@@ -43,6 +45,17 @@ int main(){
 
 
 // aqui a gente desenha com as primitivas
+
+// teste poligono
+
+    vector<pair<int, int>> pol;
+    insertPoint(pol, 400, 500);
+    insertPoint(pol, 500, 300);
+    insertPoint(pol, 300, 300);
+
+    // Assuming pixels is your SDL_Surface*
+    poligono(surface, pol, (255, 255, 255)); // White color
+
 
     // teste bresenham
 
