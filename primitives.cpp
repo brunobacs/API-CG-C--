@@ -74,3 +74,55 @@ void dda_aa (SDL_Surface* surface, int xi, int yi, int xf, int yf, int intensida
 
 }
 
+void bresenham (SDL_Surface* pixels, int xi, int yi, int xf, int yf, int intensidade){
+    if (xf < xi){
+        int aux = xf;
+        xf = xi;
+        xi = aux;
+
+    }
+        
+    int aux = yf;
+    yf = yi;
+    yi = aux;
+
+    double dx = abs(xf - xi);
+    double dy = abs(yf - yi);
+
+    aux = 0;
+
+    if (dy>dx){
+        aux = dx;
+        dx = dy;
+        dy = aux;
+        aux = 1;
+    }
+
+    int y = 0;
+    double dy2 = 2*dy;
+    double dy2dx2 = dy2 - 2*dx;
+    int s = sign(yf-yi);
+
+    double p = dx -dy2;
+
+    for (int x = 0 ; x < dx; x++){
+        if (p < 0){
+            p = p - dy2dx2;
+            y = y + 1;
+        }
+        else{
+            p = p - dy2;
+        }
+
+        if (aux == 0){
+            set_pixel(pixels, xi +x, yi + s*y, intensidade);
+
+        }          
+        else{
+            set_pixel(pixels, xi +y, yi + s*x, intensidade);
+        }
+
+    }
+    
+
+}
